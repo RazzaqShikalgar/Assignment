@@ -1,16 +1,21 @@
-# Assignment
+- This is a simple signup/login page that utilizes JWT for authentication.
+- It demonstrates basic CRUD operations and includes a profile page 
+- where users can update their details and restore the most previous value from the database.
 
-This is A Simple Signup/Login Page 
-I have used JWT for Authentication 
-This just for Demonstrating CRUD Operations...
-We have Profile Page where we can update details and can also restore most previous value from the database 
-I have used Simple UI it is done by using HTML, CSS , JS 
-Backend is done using NODEJS , EXPRESS , MONGODB
-Steps To Run This Project !!
+- The project consists of a frontend built with HTML, CSS, and JavaScript, and a backend developed using Node.js, Express, and MongoDB.- 
 
-step1 : git clone the repository 
-   git clone https://github.com/RazzaqShikalgar/Assignment.git
-step2: GoTo that directory open in VSCODE 
-step3: npm install
-step4:nodemon app.js (to run the code)
-step5: go on localhost:3000 on your browser
+- To run the project, please follow these steps:
+
+Clone the repository by running the following command in your terminal:
+
+ => git clone https://github.com/RazzaqShikalgar/Assignment.git
+ 
+Open the cloned directory in your preferred code editor, such as Visual Studio Code.
+
+Install the required dependencies by running the following command in the terminal:
+
+=> npm install
+
+Start the server by running the following command in the terminal:
+
+=> nodemon app.js
