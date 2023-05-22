@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Profile Page</title>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+  <link rel="stylesheet" type="text/css" href="/css/profile.css">
+</head>
+<body>
+  <div id="notificationContainer" class="notification-container"></div>
+
+  <div class="profile-container">
+    <div class="profile-header">
+      <img src="/assests/razzaq.jpg" alt="Profile Photo" class="profile-photo">
+      <h1 class="profile-heading">User Profile</h1>
+    </div>
+    <div class="profile-field">
+      <div class="profile-label">Full Name:</div>
+      <div class="profile-value" id="full-name"><%=user.fullName %></div>
+      <a href="#" class="profile-button" onclick="editField('full-name')">
+        <i class="fas fa-pencil-alt"></i>
+      </a>
+      <a href="#" class="profile-button" onclick="retrieveOldValue('full-name')">
+        <i class="fas fa-history"></i>
+      </a>
+    </div>
+    <div class="profile-field">
+      <div class="profile-label">Email Address:</div>
+      <div class="profile-value" id="email"><%= user.email %></div>
+      <a href="#" class="profile-button" onclick="editField('email')">
+        <i class="fas fa-pencil-alt"></i>
+      </a>
+    </div>
+    <div class="profile-field">
+      <div class="profile-label">Phone Number:</div>
+      <div class="profile-value" id="phone-number"><%= user.phoneNumber %></div>
+      <a href="#" class="profile-button" onclick="editField('phone-number')">
+        <i class="fas fa-pencil-alt"></i>
+      </a>
+    </div>
+    <div class="profile-field">
+      <div class="profile-label">Birth Date:</div>
+      <div class="profile-value" id="birth-date"><%= user.birthDate %></div>
+      <a href="#" class="profile-button" onclick="editField('birth-date')">
+        <i class="fas fa-pencil-alt"></i>
+      </a>
+    </div>
+    <div class="profile-field">
+      <div class="profile-label">Gender:</div>
+      <div class="profile-value" id="gender"><%= user.gender %></div>
+      <a href="#" class="profile-button" onclick="editField('gender')">
+        <i class="fas fa-pencil-alt"></i>
+      </a>
+    </div>
+    <div class="profile-field">
+      <div class="profile-label">Address:</div>
+      <div class="profile-value" id="address">
+        <div>Street Address: <%= user.address.streetAddress %></div>
+        <div>Street Address Line 2: <%= user.address.streetAddressLine2 %></div>
+        <div>City: <%= user.address.city %></div>
+      </div>
+      <a href="#" class="profile-button" onclick="editField('address')">
+        <i class="fas fa-pencil-alt"></i>
+      </a>
+      <a href="/">Return to HomePage</a>
+    </div>
+  </div>
+
+  <script>
+    function editField(fieldId) {
+      var fieldElement = document.getElementById(fieldId);
+      var currentValue = fieldElement.textContent;
+
+      var newInput = prompt("Enter new value:", currentValue);
+      if (newInput !== null) {
+        fieldElement.textContent = newInput;
+
+        // Send the updated data to the backend
+        var fieldName;
+        if (fieldId === "full-name") {
+          fieldName = "fullName";
+        } else if (fieldId === "email") {
+          fieldName = "email";
+        } else if (fieldId === "phone-number") {
+          fieldName = "phoneNumber";
+        } else if (fieldId === "birth-date") {
+          fieldName = "birthDate";
+        } else if (fieldId === "gender") {
+          fieldName = "gender";
+        } else if (fieldId === "address") {
+          fieldName = "address";
+        }
+        // Map other field IDs to their respective field names
+
+        var data = {
+          fieldName: fieldName,
+          value: newInput
+        };
+
+        fetch("/updatefullname", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        })
+          .then(response => response.json())
+          .then(result => {
+            showNotification("Data updated successfully!", "success");
+
+            console.log(result); // Handle the server response if needed
+          })
+          .catch(error => {
+            console.error("Error:", error);
+          });
+      }
+    }
+
+// Function to retrieve the previous value for a field
+function retrieveOldValue(fieldName) {
+  fetch('/retrieve', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ fieldName: fieldName })
+  })
+    .then(response => response.json())
+    .then(result => {
+      if (result.success) {
+        const previousValue = result.value;
+        const fieldElement = document.getElementById(fieldName);
+        fieldElement.textContent = previousValue;
+        showNotification("Data retrieved successfully!", "success");
+
+      } else {
+        console.log('No previous value found');
+      }
+    })
+    .catch(error => {
+      console.error('Error retrieving previous value:', error);
+    });
+}
+
+// Function to display the notification
+function showNotification(message, type) {
+  const notificationContainer = document.getElementById("notificationContainer");
+
+  // Create the notification element
+  const notification = document.createElement("div");
+  notification.className = `notification alert alert-${type}`;
+  
+  // Create the tick icon
+  const icon = document.createElement("i");
+  icon.className = "notification-icon fas fa-check-circle";
+  
+  // Create the message element
+  const messageElement = document.createElement("p");
+  messageElement.className = "notification-message";
+  messageElement.textContent = message;
+
+  // Append the icon and message to the notification
+  notification.appendChild(icon);
+  notification.appendChild(messageElement);
+
+  // Append the notification to the container
+  notificationContainer.appendChild(notification);
+
+  // Remove the notification after 3 seconds
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+}
+
+
+  </script>
+</body>
+</html>
