@@ -153,3 +153,19 @@ body {
 .notification-message {
   margin: 0;
 }
+
+
+/* Mobile Styles */
+@media only screen and (max-width: 600px) {
+  .profile-container {
+    padding: 20px;
+  }
+
+  .profile-value {
+    font-size: 14px;
+  }
+
+  .profile-button {
+    font-size: 14px;
+  }
+}
