@@ -43,6 +43,7 @@ const login = async (req, res) => {
     if (password === user.password) {
       // res.render("profile");// Password matches, login successful
       const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: "2h" });
+      // req.session.successMessage = "Login successful";
       return res
         .cookie("jwtToken", token, {
           expires: new Date(Date.now() + 25892000000),
@@ -51,13 +52,15 @@ const login = async (req, res) => {
         .redirect("/");
     } else {
       res.send('Invalid password'); // Password does not match
+      req.session.errorMessage = "Invalid password";
+
     }
   } catch (error) {
     console.error('Error finding user:', error);
     res.send('An error occurred'); // Error occurred while finding the user
   }
 };
-var previousValues={};
+
 // Route handler for updating full name
 const updatename = async (req, res) => {
   try {

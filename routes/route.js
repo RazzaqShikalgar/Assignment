@@ -36,6 +36,7 @@ async function check(req, res, next) {
 
 // Home page
 router.get('/', (req, res) => {
+  // const successMessage = req.session.successMessage;
   const userid = req.body;
   console.log(userid);
   res.render('index');
