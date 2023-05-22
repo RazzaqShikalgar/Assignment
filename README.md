@@ -1,4 +1,5 @@
 - This is a simple signup/login page that utilizes JWT for authentication.
+- The App is Deployed at - https://frantic-gray-shoe.cyclic.app/
 - It demonstrates basic CRUD operations and includes a profile page 
 - where users can update their details and restore the most previous value from the database.
 
